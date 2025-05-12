@@ -19,6 +19,8 @@ const Login = () => {
         password,
       }, { withCredentials: true });
 
+      console.log("userData: ", data);
+
       if (data.success) {
         navigate("/");
         setUser(data.user);
