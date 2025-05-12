@@ -26,6 +26,8 @@ const allowedOrigins = ["http://localhost:5173", "https://greencart-rose.vercel.
 
 app.post("/stripe", express.raw({ type: "application/json" }), stripeWebHooks);
 
+app.set("trust proxy", 1);
+
 //Middleware configuration
 app.use(express.json());
 app.use(cookieParser());
