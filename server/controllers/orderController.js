@@ -221,7 +221,7 @@ export const getAllOrders = async (req, res) => {
     })
       .populate("items.product address")
       .sort({ createdAt: -1 });
-
+      
     return res.json({
       success: true,
       orders,
