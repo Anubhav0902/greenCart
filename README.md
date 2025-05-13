@@ -166,4 +166,4 @@ Feel free to fork the project and submit PRs. Contributions are welcome!
 ---
 
 ### 📧 Contact
-Made with ❤️ by Anubhav
+Made with ❤️ by [Anubhav](https://github.com/Anubhav0902) 
