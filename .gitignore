@@ -1,7 +1,7 @@
 node_modules
 
-# Ignore frontend .env
+# Ignore all env files
+.env
 client/.env
-
-# Ignore backend .env
 server/.env
+
