@@ -133,10 +133,11 @@ export const stripeWebHooks = async (req, res) => {
   let event;
 
   try {
+    // ✅ Stripe needs raw body here
     event = stripeInstance.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (error) {
-    console.error("Webhook signature verification failed:", error.message);
-    return res.status(400).send(`Webhook error: ${error.message}`);
+    console.error("❌ Webhook signature verification failed:", error.message);
+    return res.status(400).send(`Webhook Error: ${error.message}`);
   }
 
   console.log("Stripe webhook event received:", event.type);
@@ -147,12 +148,10 @@ export const stripeWebHooks = async (req, res) => {
         const session = event.data.object;
         const { orderId, userId } = session.metadata;
 
-        console.log("Payment successful for order:", orderId);
+        console.log("✅ Payment completed for Order ID:", orderId);
 
-        // Mark order as paid
         await Order.findByIdAndUpdate(orderId, { isPaid: true });
 
-        // Clear user cart
         await User.findByIdAndUpdate(userId, { cartItems: {} });
         break;
       }
@@ -161,7 +160,7 @@ export const stripeWebHooks = async (req, res) => {
         const paymentIntent = event.data.object;
         const paymentIntentId = paymentIntent.id;
 
-        // Get the session associated with this payment intent
+        // Get related session
         const sessions = await stripeInstance.checkout.sessions.list({
           payment_intent: paymentIntentId,
           limit: 1,
@@ -169,7 +168,7 @@ export const stripeWebHooks = async (req, res) => {
 
         if (sessions.data.length > 0) {
           const { orderId } = sessions.data[0].metadata;
-          console.log("Payment failed, deleting order:", orderId);
+          console.log("❌ Payment failed. Deleting Order ID:", orderId);
 
           await Order.findByIdAndDelete(orderId);
         }
@@ -177,18 +176,16 @@ export const stripeWebHooks = async (req, res) => {
       }
 
       default:
-        console.log(`Unhandled event type: ${event.type}`);
+        console.log(`⚠️ Unhandled event type: ${event.type}`);
         break;
     }
 
     res.json({ received: true });
   } catch (err) {
-    console.error("Error handling webhook event:", err.message);
+    console.error("🔥 Error handling webhook event:", err.message);
     res.status(500).send("Internal Server Error");
   }
 };
-
-
 
 //Get Orders by User Id: /api/order/user
 export const getUserOrders = async (req, res) => {
@@ -222,7 +219,7 @@ export const getAllOrders = async (req, res) => {
     })
       .populate("items.product address")
       .sort({ createdAt: -1 });
-      
+
     return res.json({
       success: true,
       orders,
