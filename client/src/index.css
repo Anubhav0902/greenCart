@@ -13,3 +13,21 @@
 .no-scrollbar::-webkit-scrollbar{
   display:none;
 }
+
+.custom-swal-popup {
+  width: 360px !important;
+  height: 360px !important;
+  padding: 20px !important;
+  border-radius: 12px !important;
+}
+
+.custom-swal-title {
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+}
+
+.custom-swal-content {
+  font-size: 14px;
+  color: #666;
+}

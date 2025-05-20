@@ -10,7 +10,6 @@ const MyOrders = () => {
     try {
       const { data } = await axios.get("/api/order/user");
       if (data.success) {
-        console.log("order data fetched: ", data.orders);
         setMyOrders(data.orders);
       }
       else{
