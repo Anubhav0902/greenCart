@@ -6,7 +6,7 @@ import User from "../models/User.js";
 //Plcae Order COD: /api/order/cod
 export const placeOrderCOD = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req;
     const { items, address } = req.body;
 
     if (!address || items.length === 0) {
@@ -49,7 +49,7 @@ export const placeOrderCOD = async (req, res) => {
 //Plcae Order stripe: /api/order/stripe
 export const placeOrderStripe = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req;
     const { items, address } = req.body;
     const { origin } = req.headers;
 
